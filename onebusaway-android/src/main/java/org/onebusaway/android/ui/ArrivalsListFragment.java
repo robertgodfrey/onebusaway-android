@@ -21,6 +21,7 @@ package org.onebusaway.android.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.appwidget.AppWidgetManager;
 import android.content.ContentQueryMap;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -80,6 +81,7 @@ import org.onebusaway.android.report.ui.InfrastructureIssueActivity;
 import org.onebusaway.android.travelbehavior.TravelBehaviorManager;
 import org.onebusaway.android.ui.survey.SurveyManager;
 import org.onebusaway.android.io.request.survey.model.StudyResponse;
+import org.onebusaway.android.ui.widget.StopTimesWidgetConfigActivity;
 import org.onebusaway.android.util.ArrayAdapterWithIcon;
 import org.onebusaway.android.util.ArrivalInfoUtils;
 import org.onebusaway.android.util.BuildFlavorUtils;
@@ -655,6 +657,16 @@ public class ArrivalsListFragment extends ListFragment implements LoaderManager.
             }
         } else if (id == R.id.show_stop_details) {
             showStopDetailsDialog();
+        } else if (id == R.id.add_stop_widget) {
+            final Context context = getContext();
+            final AppWidgetManager appWidgetManager = context.getSystemService(AppWidgetManager.class);
+            if (appWidgetManager.isRequestPinAppWidgetSupported()) {
+                final Intent intent = new Intent(getActivity(), StopTimesWidgetConfigActivity.class);
+                intent.putExtra("stop_id", getStopId());
+                startActivity(intent);
+            } else {
+                Toast.makeText(context, "Please add the widget manually from the home screen", Toast.LENGTH_SHORT).show();
+            }
         } else if (id == R.id.report_stop_problem) {
             if (mStop != null) {
                 Intent intent = makeIntent(getActivity(), mStop.getId(), mStop.getName(),
@@ -1816,7 +1828,6 @@ public class ArrivalsListFragment extends ListFragment implements LoaderManager.
                     surveyManager.onSubmitSurveyFail();
                 }
 
-
                 @Override
                 public void onSkipSurvey() {
                     surveyManager.onSkipSurvey();
@@ -1838,6 +1849,4 @@ public class ArrivalsListFragment extends ListFragment implements LoaderManager.
             surveyManager.setCurrentStop(mStop);
         }
     }
-
-
 }

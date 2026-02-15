@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2010-2014 Paul Watts (paulcwatts@gmail.com),
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2010-2014 Paul Watts (paulcwatts@gmail.com),
     University of South Florida (sjbarbeau@gmail.com),
     Benjamin Du (bendu@me.com),
     Microsoft Corporation
@@ -56,6 +55,8 @@
     <color name="stop_info_ontime">@color/theme_primary</color>
     <color name="stop_info_delayed">#504caf</color>
     <color name="stop_info_early">#af504c</color>
+<!--    <color name="stop_info_delayed">#4f74d1</color>-->
+<!--    <color name="stop_info_early">#ed6f00</color>-->
 
     <!-- stop_info_occupancy_background is same as navdrawer_background_color_selected, but without transparency so it works on non-white backgrounds -->
     <color name="stop_info_occupancy_background">#ededed</color>
