@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/widget_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/app_widget_background">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        <!-- Header row: title + refresh -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="18dp"
+                android:background="#D6D6D6"
+                android:paddingVertical="6dp"
+                android:layout_marginBottom="5dp">
+
+            <TextView
+                    android:id="@+id/stop_times_widget_title"
+                    android:layout_width="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="SW Avalon Way and SW Yancy"
+                    android:textSize="16sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/quantum_black_100" />
+
+            <ImageView
+                    android:id="@+id/oba_logo"
+                    android:layout_width="35dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/onebusaway_widget_icon" />
+
+            <ImageView
+                    android:id="@+id/refresh_header"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_action_navigation_refresh"
+                    android:tint="@color/quantum_grey300" />
+        </LinearLayout>
+
+        <!-- Arrival row 1 -->
+        <LinearLayout
+                android:id="@+id/route_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="4dp"
+                android:paddingHorizontal="18dp">
+
+            <TextView
+                    android:id="@+id/route_1_name"
+                    android:layout_width="72dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_grey700" />
+
+            <TextView
+                    android:id="@+id/route_1_eta_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:background="@drawable/widget_eta_bg_scheduled"
+                    android:text="          "
+                    android:maxLines="1"
+                    android:textSize="15sp"
+                    android:textColor="@color/quantum_white_text" />
+
+            <TextView
+                    android:id="@+id/route_1_eta_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/widget_eta_bg_scheduled"
+                    android:text="          "
+                    android:maxLines="1"
+                    android:textSize="15sp"
+                    android:textColor="@color/quantum_white_text" />
+
+            <TextView
+                    android:id="@+id/route_1_eta_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/widget_eta_bg_scheduled"
+                    android:text="          "
+                    android:maxLines="1"
+                    android:textSize="15sp"
+                    android:textColor="@color/quantum_white_text" />
+        </LinearLayout>
+
+        <!-- Arrival row 2 -->
+        <LinearLayout
+                android:id="@+id/route_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="4dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="18dp">
+
+            <TextView
+                    android:id="@+id/route_2_name"
+                    android:layout_width="72dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_grey700" />
+
+            <TextView
+                    android:id="@+id/route_2_eta_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:background="@drawable/widget_eta_bg_scheduled"
+                    android:text="          "
+                    android:maxLines="1"
+                    android:textSize="15sp"
+                    android:textColor="@color/quantum_white_text" />
+
+            <TextView
+                    android:id="@+id/route_2_eta_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/widget_eta_bg_scheduled"
+                    android:text="          "
+                    android:maxLines="1"
+                    android:textSize="15sp"
+                    android:textColor="@color/quantum_white_text" />
+
+            <TextView
+                    android:id="@+id/route_2_eta_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/widget_eta_bg_scheduled"
+                    android:text="          "
+                    android:maxLines="1"
+                    android:textSize="15sp"
+                    android:textColor="@color/quantum_white_text" />
+        </LinearLayout>
+
+        <!-- Arrival row 3 -->
+        <LinearLayout
+                android:id="@+id/route_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="4dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="18dp">
+
+            <TextView
+                    android:id="@+id/route_3_name"
+                    android:layout_width="72dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_grey700" />
+
+            <TextView
+                    android:id="@+id/route_3_eta_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:background="@drawable/widget_eta_bg_scheduled"
+                    android:text="          "
+                    android:maxLines="1"
+                    android:textSize="15sp"
+                    android:textColor="@color/quantum_white_text" />
+
+            <TextView
+                    android:id="@+id/route_3_eta_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/widget_eta_bg_scheduled"
+                    android:text="          "
+                    android:maxLines="1"
+                    android:textSize="15sp"
+                    android:textColor="@color/quantum_white_text" />
+
+            <TextView
+                    android:id="@+id/route_3_eta_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/widget_eta_bg_scheduled"
+                    android:text="          "
+                    android:maxLines="1"
+                    android:textSize="15sp"
+                    android:textColor="@color/quantum_white_text" />
+        </LinearLayout>
+
+        <!-- Loading spinner, shown while fetching arrivals -->
+        <ProgressBar
+                android:id="@+id/loading"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="12dp"
+                android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!-- Footer -->
+    <LinearLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="4dp">
+
+        <TextView
+                android:id="@+id/last_updated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Updated just now"
+                android:layout_weight="1"
+                android:textSize="10sp"
+                android:textColor="@color/quantum_grey" />
+
+        <!-- Refresh button -->
+        <ImageView
+                android:id="@+id/refresh"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_action_navigation_refresh"
+                android:tint="@color/quantum_grey300" />
+    </LinearLayout>
+
+</LinearLayout>

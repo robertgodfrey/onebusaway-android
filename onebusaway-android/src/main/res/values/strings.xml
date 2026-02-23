@@ -241,6 +241,7 @@
     <string name="stop_info_option_addstar">Add star to stop</string>
     <string name="stop_info_option_show_details">Show stop details</string>
     <string name="stop_info_option_removestar">Remove star from stop</string>
+    <string name="stop_info_option_add_widget">Add widget for stop</string> <!-- TODO add translations -->
     <string name="stop_info_option_report_problem">Report stop problem</string>
     <string name="stop_info_option_night_light">Night light</string>
     <string name="stop_info_option_hide_alerts">Hide active alerts</string>
@@ -1217,6 +1218,16 @@
     <string name="transit_mode_rail">Rail only</string>
     <string name="transit_mode_bikeshare">Bikeshare only</string>
     <string name="transit_directions_bikeshare_label">Bikeshare</string>
+
+    <!-- Stop times widget -->
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string> <!-- TODO add translation -->
+    <string name="stop_picker_title">Choose a stop</string>
+    <string name="stop_picker_search_hint">Search stops...</string>
+    <string name="stop_picker_section_starred">Starred</string>
+    <string name="stop_picker_section_recent">Recent</string>
+    <string name="stop_picker_empty">No stops found. Open the app and visit a stop first.</string>
 
     <!-- Bikeshare info window -->
     <string name="bike_info_window_bikes_title">Bikes</string>

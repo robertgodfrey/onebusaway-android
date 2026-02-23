@@ -296,6 +296,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.onebusaway.android.ui.HomeActivity"/>
         </activity>
+        <activity
+                android:name=".ui.widget.StopTimesWidgetConfigActivity"
+                android:exported="true"
+                android:theme="@style/WidgetConfigDialogTheme"/>
+
+        <activity
+                android:name=".ui.widget.StopPickerActivity"
+                android:exported="false"
+                android:label="@string/stop_picker_title" />
 
 
         <!-- Provider is defined in build.gradle flavors -->
@@ -341,6 +350,16 @@
         </receiver>
         <receiver
             android:enabled="true" android:name=".travelbehavior.receiver.LocationBroadcastReceiver">
+        </receiver>
+        <receiver
+            android:name=".ui.widget.StopTimesWidget"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/stop_times_widget_info" />
         </receiver>
 
         <meta-data

@@ -21,6 +21,7 @@ import org.onebusaway.android.app.Application;
 import android.content.Context;
 
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 public final class ObaArrivalInfo implements Serializable{
 
@@ -377,5 +378,30 @@ public final class ObaArrivalInfo implements Serializable{
         } else {
             return null;
         }
+    }
+
+    static String formatMinutesAway(long arrivalTimeMs) {
+        long now = System.currentTimeMillis();
+        long diffMs = arrivalTimeMs - now;
+
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(diffMs);
+
+        if (minutes == 0) { // todo localize
+            return "Now";
+        } else {
+            return "%d min".formatted(minutes);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ObaArrivalInfo{\n" +
+                "  routeShortName='" + routeShortName + "'\n" +
+                "  scheduledArrivalTime=" + formatMinutesAway(scheduledArrivalTime) + "\n" +
+                "  predictedArrivalTime=" + formatMinutesAway(predictedArrivalTime) + "\n" +
+                "  scheduledDepartureTime=" + formatMinutesAway(scheduledDepartureTime) + "\n" +
+                "  predictedDepartureTime=" + formatMinutesAway(predictedDepartureTime) + "\n" +
+                "  predicted=" + predicted + "\n" +
+                '}';
     }
 }

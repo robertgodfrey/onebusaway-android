@@ -21,7 +21,11 @@ package org.onebusaway.android.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentQueryMap;
+import android.os.Build;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -80,6 +84,7 @@ import org.onebusaway.android.report.ui.InfrastructureIssueActivity;
 import org.onebusaway.android.travelbehavior.TravelBehaviorManager;
 import org.onebusaway.android.ui.survey.SurveyManager;
 import org.onebusaway.android.io.request.survey.model.StudyResponse;
+import org.onebusaway.android.ui.widget.StopTimesWidget;
 import org.onebusaway.android.util.ArrayAdapterWithIcon;
 import org.onebusaway.android.util.ArrivalInfoUtils;
 import org.onebusaway.android.util.BuildFlavorUtils;
@@ -655,6 +660,32 @@ public class ArrivalsListFragment extends ListFragment implements LoaderManager.
             }
         } else if (id == R.id.show_stop_details) {
             showStopDetailsDialog();
+        } else if (id == R.id.add_stop_widget) {
+            final Context context = getContext();
+            final AppWidgetManager appWidgetManager = context.getSystemService(AppWidgetManager.class);
+            if (appWidgetManager.isRequestPinAppWidgetSupported()) {
+                final String stopName = mStop != null ? mStop.getName() : "";
+
+                // Use a broadcast callback so the system can reliably inject EXTRA_APPWIDGET_ID.
+                // The broadcast receiver then starts the config activity with the real widget ID.
+                Intent callbackIntent = new Intent(context, StopTimesWidget.class);
+                callbackIntent.setAction(StopTimesWidget.ACTION_OPEN_CONFIG);
+                callbackIntent.putExtra(StopTimesWidget.EXTRA_STOP_ID, getStopId());
+                callbackIntent.putExtra(StopTimesWidget.EXTRA_STOP_NAME, stopName);
+
+                int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    flags |= PendingIntent.FLAG_MUTABLE; // required so system can inject EXTRA_APPWIDGET_ID
+                }
+                PendingIntent callbackPi = PendingIntent.getBroadcast(context, 0, callbackIntent, flags);
+
+                appWidgetManager.requestPinAppWidget(
+                        new ComponentName(context, StopTimesWidget.class),
+                        null,
+                        callbackPi);
+            } else {
+                Toast.makeText(context, "Please add the widget manually from the home screen", Toast.LENGTH_SHORT).show();
+            }
         } else if (id == R.id.report_stop_problem) {
             if (mStop != null) {
                 Intent intent = makeIntent(getActivity(), mStop.getId(), mStop.getName(),
@@ -1816,7 +1847,6 @@ public class ArrivalsListFragment extends ListFragment implements LoaderManager.
                     surveyManager.onSubmitSurveyFail();
                 }
 
-
                 @Override
                 public void onSkipSurvey() {
                     surveyManager.onSkipSurvey();
@@ -1838,6 +1868,4 @@ public class ArrivalsListFragment extends ListFragment implements LoaderManager.
             surveyManager.setCurrentStop(mStop);
         }
     }
-
-
 }

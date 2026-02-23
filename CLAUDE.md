@@ -12,14 +12,20 @@ OneBusAway for Android is a real-time transit information app providing bus arri
 # Build and install debug version (default OBA brand for Google Play)
 ./gradlew installObaGoogleDebug
 
-# Run instrumented tests
+# Run all instrumented tests
 ./gradlew connectedObaGoogleDebugAndroidTest
+
+# Run a single test class
+./gradlew connectedObaGoogleDebugAndroidTest --tests org.onebusaway.android.io.test.ArrivalInfoRequestTest
 
 # Build release APK (requires signing configuration)
 ./gradlew assembleObaGoogleRelease
 
 # Full CI check (tests + lint)
 ./gradlew test check connectedObaGoogleDebugAndroidTest
+
+# Validate string placeholders are consistent across all translation files
+./gradlew validateStringPlaceholders
 
 # Start app manually after install
 adb shell am start -n com.joulespersecond.seattlebusbot/org.onebusaway.android.ui.HomeActivity
@@ -41,10 +47,12 @@ Main module: `onebusaway-android/src/main/java/org/onebusaway/android/`
 Key packages:
 - `app/` - Application class and lifecycle management
 - `ui/` - Activities and Fragments (HomeActivity is the main entry point)
+  - `ui/widget/` - Home screen widget components (StopTimesWidget, WidgetArrivalWorker)
 - `io/` - REST API integration using Jackson for JSON binding
   - `elements/` - Response data models
   - `request/` - API request classes (e.g., ObaArrivalInfoRequest)
-- `provider/` - Content provider (ObaProvider, ObaContract)
+- `database/` - Room database (Kotlin); entities, DAOs, and DatabaseProvider
+- `provider/` - Legacy SQLite content provider (ObaProvider, ObaContract)
 - `map/` - Google Maps integration (Google flavor only)
 - `region/` - Multi-region support for different OBA server instances
 - `directions/` - OpenTripPlanner integration for trip planning
@@ -52,15 +60,22 @@ Key packages:
 - `util/` - Utility classes (LocationUtils, PreferenceUtils, RegionUtils)
 
 ### API Layer Pattern
-- Requests extend base classes and return typed responses
+- Requests in `io/request/` implement `Callable<ObaXxxResponse>` using a nested `Builder` class
+- All responses extend `ObaResponse` (contains HTTP status code, API version, currentTime)
 - Jackson handles JSON serialization/deserialization
 - ObaApi provides static singleton access to API constants
-- Multi-region architecture auto-discovers OBA servers based on device location
+- Tests use raw JSON files from `res/raw/` with `ObaMock` to simulate API responses
+
+### UI Layer Pattern
+- Fragments use the custom `ListFragment` base class (in `ui/ListFragment.java`, not AndroidX's)
+- Data loading uses `LoaderManager` + `AsyncTaskLoader` (e.g., `ArrivalsListLoader extends AsyncTaskLoader<ObaArrivalInfoResponse>`)
+- Fragment-to-parent communication via Controller interfaces (e.g., `ArrivalsListHeader.Controller`)
+- View Binding is enabled (`buildFeatures { viewBinding true }`) — new UI code should use it
 
 ### Data Persistence
-- Content Provider with ObaContract for data access
-- Room database for structured storage (schemas in `schemas/` directory)
-- SharedPreferences for user settings via PreferenceUtils
+- **Room database** (`database/` package, Kotlin): structured storage for regions, stops, surveys, alerts. Schema versions exported to `schemas/`.
+- **Content Provider** (`provider/`): legacy SQLite via ObaProvider/ObaContract for backward compatibility
+- **SharedPreferences**: user settings via `PreferenceUtils`; widget state via `WidgetPrefs` (uses Gson for JSON serialization)
 
 ## Configuration
 
@@ -88,12 +103,16 @@ Use AOSP code style. Import `AndroidStyle.xml` (in repo root) into Android Studi
 1. Place in Android Studio `/codestyles` directory
 2. Select "AndroidStyle" under File > Settings > Code Style
 
+The codebase is primarily Java (Java 1.8 compatibility). The `database/` package is Kotlin. New code may be written in either language.
+
 ## Testing
 
 Tests are in `onebusaway-android/src/androidTest/java/`. Key test classes:
 - API request/response tests (ArrivalInfoRequestTest, StopRequestTest)
 - Region functionality tests (RegionsTest)
 - Utility tests (LocationUtilsTest, RegionUtilTest)
+
+Test base class is `ObaTestCase` (uses `@RunWith(AndroidJUnit4.class)`). It sets up `ObaMock` pointing at Puget Sound in `@Before`. Raw JSON response fixtures live in `res/raw/`.
 
 CI runs on API level 33 emulator via GitHub Actions.
 
@@ -134,6 +153,7 @@ getString(R.string.tutorial_welcome_title, getString(R.string.app_name))
 1. Use `%1$s` placeholder instead of hardcoding "OneBusAway"
 2. Update code to pass `getString(R.string.app_name)` as the format argument
 3. Update all translation files (`values-*/strings.xml`) with the same placeholder pattern
+4. Run `./gradlew validateStringPlaceholders` to verify consistency across translations
 
 **Important:** Strings referenced directly in XML layouts (via `@string/...`) cannot use placeholders - the placeholder would display as literal `%1$s` text. For these strings, set the text programmatically in Java/Kotlin code after inflating the view.
 
